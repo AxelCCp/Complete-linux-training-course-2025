@@ -1,0 +1,362 @@
+
+LINUX COMMANDS 
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: XXX zzz
+
+PARA DESCARGAR VM WARE - VIRTUAL MACHINE ,  ALTERNATIVA A LA MAQUINA VIRTUAL DE ORACLE:
+
+https://support.broadcom.com/web/ecx/home
+
+burrocarnicero@gmail.com
+
+c4m12k3L%
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+LOGIN CENTOS 
+
+boo
+123
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+[  I had the same problem and the solution was to install and run an SSH server with command in Linux: sudo apt install openssh-server  ]
+
+
+CONECT FROM SSH WINDOWS 10 TO LINUX MACHINE WITH CMD
+
+Get ip address on linux
+
+> ifconfig
+or
+> ip addr
+
+
+192.168.1.218
+
+CONNECT TO LINUX MACHINE FROM CMD
+
+> ssh -l boo 192.168.1.218
+
+
+
+......................
+
+conectar con putty:
+
+escribe la ip address de tu linux.
+
+conectar con ssh:
+
+> ssh -l boo 192.168.50.105
+
+......................
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+41...
+
+> hostname
+
+> ls -l
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+42...
+
+> cd /
+> ls -l
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+43...
+
+> whoami 
+
+> su -
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+44...
+
+cd /
+
+cd {path}
+
+pwd
+
+cd ..
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+45...
+
+whoami
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+48
+
+CAMBIO DE PASSWORD
+
+whoami
+
+passwd
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+49
+
+FILE SYSTEM PATHS
+
+	ABSOLUTE PATH 
+	RELATIVE PATH
+	
+
+SU -
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+50 CREATING FILES AND DIRECTORIES
+
+touch jerry
+touch bart lisa marge
+
+cp jerry lex
+vi homer
+
+mkdir seinfeld
+mkdir superman simpsons
+
+ls -ltr
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+51 COPYING DIRECTORIES
+
+cd 
+
+cd -R <source folder> <destination folder>
+
+mkdir config
+cd config
+touch a.config b.config c.config
+
+cp -R config /tmp/config-bak
+cd /tmp
+pwd
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+52 FIND FILES AND DIRECTORIES
+
+{ . } : current directory.
+
+find . -name "lisa"
+
+find . -name "a.config"
+
+BUSCAR EN TODO EL PC
+
+find / .name "lisa"
+
+[root@LinuxVM ~]# find / -name "ifcfg-enp0s3"
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+53 MOVE FILES 
+
+mv jerry /home/boo/seinfeld
+
+DIFFERENCES BETWEEN FIND AND LOCATE
+
+touch susan
+
+find . -name susan
+
+FOR TO USE LOCATE ,  FIRST  I NEED TO CHARGE THE DATABASE FROM ROOT USER
+
+updatedb
+
+locate susan
+
+locate jerry
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+WILDCARDS
+
+* ZERO OR MORE CHARACTERS.
+
+? SIGLE CHARACTER.
+
+[] RANGE OF CHARACTERS. 
+
+-----
+
+CREATE MULTIPLE FILES
+
+touch abcd1 abcd2 abcd3
+rm abc*
+ls -ltr
+
+-----
+
+touch abcd{1..9}-xyz
+ls -l abc*
+rm abcd*
+
+-----
+
+touch abcd{1..9}-xyz
+rm *xyz
+
+-----
+
+touch abcd{1..5}-xyz
+ls -l ?bcd*
+ls -l *[cd]*
+rm *xy*
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+55 - SOFT LINK AND HARD LINKS
+
+inode : pointer or number of a file on the hard disk.
+
+soft link : apunta al archivo.
+
+hardlink : apunta al inode del archivo.
+
+---------------------------------------
+
+CREA UN SOFT LINK A HULK/
+
+CREA HULK FILE EN home/boo 
+
+touch hulk
+
+CREA SOFT LINK EN /tmp
+
+ln -s /home/boo/hulk
+ls -ltr
+
+ESCRIBE DENTRO DEL ARCHIVO HULK
+
+echo "hulk is a superhero" > hulk
+
+LEE EL ARCHIVO 
+
+cat hulk
+
+IR A TMP
+
+cd /tmp
+
+LEE HULK CON EL LINK 
+
+cat hulk
+
+--------
+
+LS CON NUMEROS INODE
+
+ls -ltri
+
+ls -ltri hulk
+ls -ltri /home/boo/hulk
+
+---------
+
+REMOVE HULK FRON HOME/BOO
+
+rm hulk
+
+LUEGO 
+
+cd /tmp 
+
+ Y 
+
+ls -ltri hulk
+
+REMOVE HULK LINK
+
+rm hulk
+ 
+ls -ltri hulk
+
+
+-----------------------------------------
+
+
+HARD LINK
+
+CREATE FILE
+
+[root@LinuxVM tmp]# cd /home/boo
+[root@LinuxVM boo]# pwd
+/home/boo
+[root@LinuxVM boo]# touch hulk2
+
+WRITE ON FILE
+
+[root@LinuxVM boo]# echo "hulk is a superhero 2" > hulk2
+[root@LinuxVM boo]# cat hulk2
+hulk is a superhero 2
+
+
+GENERA HARD LINK EN TMP
+
+[root@LinuxVM boo]# cd /tmp
+[root@LinuxVM tmp]# pwd
+/tmp
+[root@LinuxVM tmp]# ln /home/boo/hulk2
+[root@LinuxVM tmp]# ls -ltri
+
+READ FILE FROM HARDLINK 
+
+[root@LinuxVM tmp]# cat hulk2
+hulk is a superhero 2
+
+UPDATE THE hulk2 FILE INFORMATION 
+
+[root@LinuxVM tmp]# cd /home/boo
+[root@LinuxVM boo]# pwd
+/home/boo
+[root@LinuxVM boo]# echo "hulk is green 123" >> hulk2
+[root@LinuxVM boo]# cat hulk2
+hulk is a superhero 2
+hulk is green 123
+
+DELETE HULK2 FILE FROM /home/boo AND GO TO /tmp
+
+rm hulk2
+
+cd /tmp
+ls -tri
+cat hulk2
+
+
+
+
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
