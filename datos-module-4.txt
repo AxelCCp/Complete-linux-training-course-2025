@@ -120,7 +120,20 @@ chmod ugo+r FILE
 
 chmod 444 FILE
 
-----------
+
+-----------------------------------------------------------
+number		permission type			symbol
+-----------------------------------------------------------
+0			no permission			---
+1  			execute 				--x
+2    			write					-w-
+3			execute+write			-wx
+4			read					r--
+5			read+execute			r-x
+6			read+write				rw-
+7			read+write+execute		rwx
+-----------------------------------------------------------
+
 
 GIVE PERMISSIONS
 
@@ -595,7 +608,7 @@ cut --version
 
 cut --help
 
-cut .c1 filename
+cut -c1 filename
 
 cut -c1,2,3 filename
 

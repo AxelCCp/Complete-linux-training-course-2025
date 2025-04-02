@@ -1,0 +1,768 @@
+
+MODULE 5 - SYSTEM ADMINISTRATION
+
+
+//////////////////////////////////////////////////////////////////////////////
+CONECT FROM SSH WINDOWS 10 TO LINUX MACHINE WITH CMD
+
+Get ip address on linux
+
+> ifconfig
+or
+> ip addr
+
+
+192.168.1.218
+
+CONNECT TO LINUX MACHINE FROM CMD
+
+> ssh -l boo 192.168.1.218
+
+> ssh -l solider 192.168.1.218
+
+> C:\Users\Fanta>ssh -l boo 192.168.1.221
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+87 - / VI / LINUX FILE EDITOR
+
+vi -> visual editor.
+ed -> standard editor.
+ex -> extended editor.
+emacs -> a full screen editor.
+pico ->beginner's editor.
+vim -> advance version of vi  
+
+----
+
+Most common keys: 
+
+i -> insert.
+Ecs -> escape ouu of any mode.
+r -> replace.
+d -> delete.
+:q! -> quit without saving.
+:wq! -> quit and save.
+
+---- 
+
+[boo@LinuxVM ~]$ grep line firstfile
+line 4
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+88 - / VIM / LINUX FILE EDITOR
+
+vim filename
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+89 - SED COMMAND
+
+- replace a string with a new string. 
+- find and delete a line.
+- remove empty lines.
+- remove the first or n lines in a file.
+- replace tabs with spaces.
+- show defined lines from a file.
+- substitute within vi editor.
+
+----
+
+Replace boo by zzz,  only when print. The file does not change:
+
+{g} : replace all boo words by zzz.
+
+sed 's/boo/zzz/g' characters
+
+----
+
+Change Replace boo by zzz. Changing the file content:
+
+{-i} : insert.
+
+sed -i 's/boo/zzz/g' characters
+
+----
+
+Remove a word:
+
+sed 's/rochi//g' characters
+
+sed -i 's/rochi//g' characters
+
+----
+
+Remove the lines where that contains pan:
+
+sed '/pan/d' characters
+
+sed -i '/pan/d' characters
+
+----
+
+Remove empty lines:
+
+sed '/^$/d' characters
+
+sed -i '/^$/d' characters
+
+----
+
+Remove the first line:
+
+sed '1d' characters
+
+sed -i '1d' characters
+
+----
+
+Remove the first 2 lines:
+
+sed '1,2d' characters
+
+sed -i '1,2d' characters
+
+----
+
+Remove tabs and replace for 1 space:
+
+sed 's/\t/ /g' characters
+
+sed -i 's/\t/ /g' characters
+
+[root@LinuxVM seinfeld]# cat characters
+goku     a
+pan      b
+rochi    c
+khrilin          d
+vegeta          e
+pilaf   f
+puar    g
+zzz h
+rochi2 i
+vegeta e
+
+[root@LinuxVM seinfeld]# sed 's/\t/ /g' characters
+goku  a
+pan  b
+rochi  c
+khrilin   d
+vegeta   e
+pilaf  f
+puar  g
+zzz h
+rochi2 i
+vegeta e
+
+----
+
+Replace the spaces by a tab:
+
+sed 's/ /\t/g' characters
+
+[root@LinuxVM seinfeld]# sed 's/ /\t/g' characters
+goku            a
+pan             b
+rochi           c
+khrilin                 d
+vegeta                  e
+pilaf           f
+puar            g
+zzz     h
+rochi2  i
+vegeta  e
+
+----
+
+Show only a range lines: 
+
+sed -n 3,8p characters
+
+----
+
+Show all, except a range of lines:
+
+sed 3,8d characters 
+
+----
+
+Put space lines in the file
+
+sed G characters
+
+----
+
+Replace rochi by "S" except the rochi in the third line.
+
+sed '3!s/rochi/S/g' characters
+
+[root@LinuxVM seinfeld]# cat characters
+goku     a
+pan      b
+rochi    c
+khrilin          d
+vegeta          e
+pilaf   f
+puar    g
+zzz h
+rochi2 i
+vegeta e
+rochi m
+rochi n
+[root@LinuxVM seinfeld]# sed '3!s/rochi/S/g' characters
+goku     a
+pan      b
+rochi    c
+khrilin          d
+vegeta          e
+pilaf   f
+puar    g
+zzz h
+S2 i
+vegeta e
+S m
+S n
+
+----
+
+Replace word from the editor vi
+
+vi characters
+
+:%s/rochi/bulma/
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+90 - USER ACCOUNT MANAGER
+
+useradd 
+groupadd
+userdel
+groupdel
+usermod
+
+----
+
+CREATE AN USER
+
+[boo@LinuxVM ~]$ su -
+Password:
+[root@LinuxVM ~]# useradd spiderman
+[root@LinuxVM ~]# id spiderman
+uid=1001(spiderman) gid=1001(spiderman) groups=1001(spiderman)
+
+----
+
+CREATE A GROUP
+
+[root@LinuxVM home]# groupadd superheros
+[root@LinuxVM home]# cat /etc/group
+...
+superheros:x:1002:
+
+----
+
+DELETE USER
+
+[root@LinuxVM home]# userdel -r spiderman
+[root@LinuxVM home]# ls -ltr
+total 4
+drwx------. 20 boo boo 4096 Mar 23 07:16 boo
+
+----
+
+DELETE A GROUP
+
+groupadd RR 
+cat /etc/group
+groupdel RR
+
+---- 
+
+ADD USER TO THE GROUP
+
+[root@LinuxVM ~]# useradd spiderman
+[root@LinuxVM ~]# id spiderman
+uid=1001(spiderman) gid=1001(spiderman) groups=1001(spiderman)
+
+root@LinuxVM ~]# cd /home
+[root@LinuxVM home]# ls -ltr
+total 4
+drwx------. 20 boo       boo       4096 Mar 23 07:16 boo
+drwx------.  3 spiderman spiderman   78 Mar 23 08:16 spiderman
+
+root@LinuxVM home]# usermod -G superheros spiderman
+[root@LinuxVM home]# grep spiderman /etc/group
+superheros:x:1002:spiderman
+spiderman:x:1001:
+
+[root@LinuxVM home]# chgrp -R superheros spiderman
+[root@LinuxVM home]# ls -ltr
+total 4
+drwx------. 20 boo       boo        4096 Mar 23 07:16 boo
+drwx------.  3 spiderman superheros   78 Mar 23 08:16 spiderman
+
+----
+
+REVIEW THE USER INFORMATION
+
+cat /etc/passwd
+
+----
+
+REVIEW THE GROUP INFORMATION
+
+cat /etc/group
+
+----
+
+PASSWORD INFORMATION
+
+cat /etc/shadow
+
+----
+
+GET THE SPECIFIC INFORMATION ABOUT AN USER
+
+[root@LinuxVM home]# grep spiderman /etc/passwd
+spiderman:x:1001:1001::/home/spiderman:/bin/bash
+[root@LinuxVM home]#
+
+
+----
+
+CREATE A USER WITH DESCRIPTION
+
+[root@LinuxVM home]# useradd -g superheros -s /bin/bash -c "Ironman character" -m -d /home/ironman Ironman
+[root@LinuxVM home]# id Ironman
+uid=1002(Ironman) gid=1002(superheros) groups=1002(superheros)
+
+----
+
+REVIEW INFORMATION
+
+[root@LinuxVM home]# cat /etc/passwd
+...
+Ironman:x:1002:1002:Ironman character:/home/ironman:/bin/bash
+
+----
+
+SET A PASSWORD FOR IRONMAN USER
+
+[root@LinuxVM home]# passwd Ironman
+Changing password for user Ironman.
+New password:
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password:
+passwd: all authentication tokens updated successfully.
+
+----
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+91 - ENABLE PASSWORD AGING
+
+-------
+
+ESTE ES EL ARCHIVO QUE CONTROLA EL LOGIN DE LOS USUARIOS Y MANEJA POR DEFECTO 
+LAS CONFIGURACIONES DE LAS CUENTAS DE USUARIO.
+
+[root@LinuxVM home]# more /etc/login.defs
+
+
+--------
+
+CHAGE COMMAND SINTAX:
+
+chage [-d lastday] [-m mindays] [-M maxdays] [ -W warndays] [ -I inactive] [-E expiratedate] user 
+
+----------------------------------------------------------------------
+Options:
+  -d, --lastday LAST_DAY        set date of last password change to LAST_DAY
+  -E, --expiredate EXPIRE_DATE  set account expiration date to EXPIRE_DATE
+  -h, --help                    display this help message and exit
+  -i, --iso8601                 use YYYY-MM-DD when printing dates
+  -I, --inactive INACTIVE       set password inactive after expiration
+                                to INACTIVE
+  -l, --list                    show account aging information
+  -m, --mindays MIN_DAYS        set minimum number of days before password
+                                change to MIN_DAYS
+  -M, --maxdays MAX_DAYS        set maximum number of days before password
+                                change to MAX_DAYS
+  -R, --root CHROOT_DIR         directory to chroot into
+  -W, --warndays WARN_DAYS      set expiration warning days to WARN_DAYS
+------------------------------------------------------------------------
+
+useradd babubutt
+
+----
+
+[root@LinuxVM home]# useradd babubutt
+[root@LinuxVM home]# ls -ltr
+total 4
+drwx------. 20 boo       boo        4096 Mar 23 07:16 boo
+drwx------.  3 spiderman superheros   78 Mar 23 08:16 spiderman
+drwx------.  3 Ironman   superheros   78 Mar 23 08:43 ironman
+drwx------.  3 babubutt  babubutt     78 Mar 23 08:57 babubutt
+
+----
+
+[root@LinuxVM home]# grep babu /etc/shadow
+babubutt:!!:20170:0:99999:7:::
+
+----
+
+chage -m 5 -M 90 -W 10 -I 3 -E 
+
+
+[root@LinuxVM home]# chage -m 5 -M 90 -W 10 -I 3 babubutt
+
+grep babubutt /etc/shadow
+
+[root@LinuxVM home]# grep babubutt /etc/shadow
+babubutt:!!:20170:5:90:10:3::
+
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+92 - SWITCH USERS AND SUDO ACCESS - DA PERMISOS DE USUARIO ROOT A UN USUARIO
+
+su - username
+sudo --> para ejecutar comandos cuando no eres root y no tienes privilegios.
+visudo --> archivo de configuracion que permite añadir o eliminar derechos para ejecutar comandos.
+
+		FILE:  /etc/sudoers
+		
+----
+		
+DAR PERMISOS DE ROOT A BOO DESDE ESTE ARCHIVO VISUDO:
+DESDE ROOT,  USA EL COMANDO visudo Y EDITA EL ARCHIVO
+
+##      user    MACHINE=COMMANDS
+##
+## The COMMANDS section may have other options added to it.
+##
+## Allow root to run any commands anywhere
+root    ALL=(ALL)       ALL
+boo     ALL=(ALL)       ALL
+
+***
+AL FINAL ESTO NO SE HIZO Y EL PROFE NO GUARDÓ LOS CAMBIOS EN EL ARCHIVO
+***
+
+----
+
+TAMBN SE PUEDE AGREGAR A BOO AL GRUPO ROOT:
+
+usermod -aG wheel boo
+
+AHORA BOO ES PARTE DEL GRUPO WHEEL
+
+[root@LinuxVM ~]# grep wheel /etc/group
+wheel:x:10:boo
+
+----
+
+CAMBIA A USUARIO BOO Y PRUEBA LOS ACCESOS QUE ANTES ESTABAN DENEGADOS
+
+AHORA BOO PUEDE USAR EL COMANDO SUDO
+
+sudo dmidecode
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+93 - MONITOR USERS
+
+who --> cuantas personas estan logueadas en el sistema.
+last 
+w 
+pinky
+id.
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+94 - TALKING TO USERS
+
+users 
+wall 
+write
+
+ifconfig | more 
+
+----
+
+ENVIAR MENSAJE A TODOS LOS USUARIOS
+
+C:\Users\Fanta>ssh -l boo 192.168.1.218
+
+C:\Users\Fanta>ssh -l solider 192.168.1.218
+
+C:\Users\Fanta>ssh -l babubutt 192.168.1.218
+
+[boo@LinuxVM ~]$ wall
+hello !!! 123 .. boo
+
+(escribe mensaje ,  apreta enter ,  y luego ctrl + d)
+
+----
+
+ENVIAR MENSAJE A USUARIO ESPECIFICO:
+
+write username
+
+(escribe mensaje ,  apreta enter ,  y luego ctrl + d)
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+95 - LINUX ACCOUNT AUTHENTICATION
+
+ACTIVE DIRECTORY
+
+LDAP
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+96 - DIFFERENCES BETWEEN ACTIVE DIRECTORY ,  LDAP ,  IDM , WinBIND, OpenLDAP, ETC.:
+
+ACTIVE DIRECTORY -> MICROFSOFT
+
+IDM - IDENTITY MANAGER -> LINUX
+
+WinBIND -> used in linux to communicate with windows.
+
+OpenLDAP -> LDAP protocol. 
+
+IBM Directory Server
+
+JUMP CLOUD
+
+LDAP
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+97 - SYSTEM UTILITY COMMANDS
+
+
+date
+uptime
+hostname
+uname
+which
+cal
+bc
+
+----
+
+which pwd
+
+ls .l /user/bin/pwd
+
+cal 9 2500
+
+
+bc   ->  calculadora
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+98 - PROCESSES AND JOBS
+
+aplication = sevice
+script
+process
+daemon 
+threads
+job
+
+----
+
+PROCESS / SERVICE COMMANDS:  
+
+systemctl or service
+ps
+top
+kill
+crontab
+at.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+99 -  systemctl COMMAND
+
+ES PARA CONTROLAR LOS SERVICIOS DEL SISTEMA.
+
+USAGE EXAMPLE  
+
+systemctl start | stop | status servicename.service   (firewalld)
+
+systemctl enable servicename.service
+
+systemctl restart | reaload servicename.service
+
+systemctl  list-units --all
+
+----
+
+systemctl status firewalld.service
+
+systemctl stop firewalld.service
+
+LO DESHABILITA
+
+systemctl disable firewalld
+
+LIST
+
+systemctl list-units
+
+LIST AL ELEMENTS ACTIVE INACTIVE ALL
+
+systemctl list-units --all
+
+----
+
+
+TO ADD A SERVICE UNDER SYSTEMCTL MANAGEMENT:
+
+CREATE A UNIT FILE IN /etc/systemd/system/servicename.service
+
+TO CONTROL SYSTEM WITH systemctl:
+
+systemctl poweroff
+systemctl halt
+systemctl reboot
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+100 - ps  COMMAND
+
+DA STATUS Y MUENTRA TODOS LOS PROCESOS Q ACTUALMENTE ESTAN CORRIENDO EN EL SYSTEMA LINUX:
+
+ps = shows the processes in the current shell.
+
+PID = the unique process ID.
+TTY = terminal type that the user logged into.
+TIME = amount of CPU in minuted and seconds that the process has been running.
+CMD = name of the command
+
+----
+
+ALL RUNNING PROCESSES
+ps -e
+
+ALL RUNNING PROCESSES IN BSD FORMAt
+ps aux
+
+ALL THE PROCESSES IN FULL FORMAT
+ps -ef
+
+SHOW ALL THE PROCESSES BY USERNAME
+ps -u username
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+101 -  "top"  COMMAND
+
+is used to show the linux processes in real time view of the running system: 
+
+top
+
+top -u username
+
+SHOW COMMANDS ABSOLUTE PATH
+"top" then press "c"
+
+KILL PROCESS
+"top" then press "k"
+
+TO SORT ALL LINUX RUNNING PROCESSES BY MEMORY USAGE
+
+"top" then "M" and "P"
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+102 - KILL COMMAND
+
+FINISH PROCESSES MANUALLY.
+
+kill [OPTION [PID]
+
+OPTION = signame name or signal number / ID
+PID = process ID
+
+ps -ef
+
+TO GET A LIST OF ALL SIGNAL NAMES OR SILGNAL NUMBERS
+kill -l 
+
+-------------------------------------------------------------------------------
+ 1) SIGHUP       2) SIGINT       3) SIGQUIT      4) SIGILL       5) SIGTRAP
+ 6) SIGABRT      7) SIGBUS       8) SIGFPE       9) SIGKILL     10) SIGUSR1
+11) SIGSEGV     12) SIGUSR2     13) SIGPIPE     14) SIGALRM     15) SIGTERM
+16) SIGSTKFLT   17) SIGCHLD     18) SIGCONT     19) SIGSTOP     20) SIGTSTP
+21) SIGTTIN     22) SIGTTOU     23) SIGURG      24) SIGXCPU     25) SIGXFSZ
+26) SIGVTALRM   27) SIGPROF     28) SIGWINCH    29) SIGIO       30) SIGPWR
+31) SIGSYS      34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3
+38) SIGRTMIN+4  39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8
+43) SIGRTMIN+9  44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13
+48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12
+53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7
+58) SIGRTMAX-6  59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2
+63) SIGRTMAX-1  64) SIGRTMAX
+-------------------------------------------------------------------------------
+
+MOST USED SIGNALS ARE:
+
+kill PID   -> kill all process with default signal.
+kill -1    -> restart.
+kill -2    -> interrupt from the keyboard just like ctrl + c
+kill -9 	-> forcefully kill the process.
+kil -15 	-> kill a process gracefully.
+
+*(do this from root)
+
+others: 
+
+killall
+pkill
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+103 - PROCESS SIGNALS IN LINUX
+
+
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
